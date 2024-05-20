@@ -37,7 +37,7 @@ with st.sidebar:
     st.markdown(" ●  **70%** of Active Users come from a single country (USA)")
     st.markdown(" ● **30%** of Opportunities won never become active platform users")
     st.markdown(" ● **25%** of Active Accounts have zero platform interaction")
-    st.markdown(" ● Average turnover from 'opportunity won' to 'active' status is **7 days** add and varies wildly")
+    st.markdown(" ● Average turnover from 'opportunity won' to 'active' status is **7 days** and and varies wildly")
 
 st.divider()
 st.sidebar.header("Filter Options")
