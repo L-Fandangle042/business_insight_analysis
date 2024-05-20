@@ -4,6 +4,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from streamlit_dynamic_filters import DynamicFilters 
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 # Setting up page configuration
 
@@ -25,7 +27,7 @@ with st.sidebar:
     st.markdown(" ●  **70%** of Active Users come from a single country (USA)")
     st.markdown(" ● **30%** of Opportunities won never become active platform users")
     st.markdown(" ● **25%** of Active Accounts have zero platform interaction")
-    st.markdown(" ● Average turnover from 'opportunity won' to 'active' status is **7 days** and varies wildly")
+    st.markdown(" ● Average turnover from 'opportunity won' to 'active' status is **7 days** add and varies wildly")
 
 st.sidebar.header("Filter Options")
 
@@ -110,3 +112,40 @@ fig_growth.update_layout(
     )
 )
 st.plotly_chart(fig_growth, use_container_width=True)
+
+# CHURN ANALYTICS
+
+st.header("Churn Graphs")
+
+c1, c2, c3 = st.columns(3)
+with c1:
+    st.markdown('### Churn by region')
+    churn_by_region = df[df['CSM Status Stage'] == 'Churned'].groupby(['Region']).count()[
+        'Account ID'].reset_index().rename(columns={'Account ID': 'total_users_churned'})
+    not_churn_by_region = df.groupby(['Region']).nunique()['Account ID'].reset_index().rename(
+        columns={'Account ID': 'total_users'}).iloc[0:4]
+    churn_by_region['total_users'] = not_churn_by_region['total_users']
+
+    fig_churn_by_region = make_subplots(specs=[[{"secondary_y": True}]])
+    fig_churn_by_region.add_trace(
+        go.Bar(x=churn_by_region['Region'], y=churn_by_region['total_users_churned'], name="Churned"),
+        secondary_y=False)
+    fig_churn_by_region.add_trace(
+        go.Scatter(x=churn_by_region['Region'], y=churn_by_region['total_users'], name="Total users", mode="lines"),
+        secondary_y=True)
+    fig_churn_by_region.update_xaxes(title_text="Region")
+    fig_churn_by_region.update_yaxes(title_text="Churn", secondary_y=False)
+    fig_churn_by_region.update_yaxes(title_text="Total users", secondary_y=True)
+    st.plotly_chart(fig_churn_by_region, use_container_width=True)
+with c2:
+    st.markdown('### Churn rate by product')
+    churn_by_product = df[df['CSM Status Stage'] == 'Churned'].groupby(['Highest Product', 'CSM Status Stage']).count()[
+        'Account ID'].reset_index()
+    fig_churn_by_product = px.bar(churn_by_product, x='Highest Product', y='Account ID')
+    st.plotly_chart(fig_churn_by_product, use_container_width=True)
+with c3:
+    st.markdown('### Churn by number of partners')
+    churn_by_partners = df[df['CSM Status Stage'] == 'Churned'].groupby(['# delivery partners']).count()[
+        'Account ID'].reset_index()
+    fig_churn_by_partners = px.bar(churn_by_partners, x='# delivery partners', y='Account ID')
+    st.plotly_chart(fig_churn_by_partners, use_container_width=True)
