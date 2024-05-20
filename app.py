@@ -28,19 +28,18 @@ st.write("This project is solely for demonstration purposes, all code and framew
 
 st.write("The analysis and dataframes that are used here are available via the repository, titled **'Exploration.ipynb'** ")
 
-st.write("")
-
 # Filter Sidebar
 
 # Sidebar Inights
 
 with st.sidebar:
-    st.header("**Quick Inisghts**")
+    st.header("**Quick Insights**")
     st.markdown(" ●  **70%** of Active Users come from a single country (USA)")
     st.markdown(" ● **30%** of Opportunities won never become active platform users")
     st.markdown(" ● **25%** of Active Accounts have zero platform interaction")
     st.markdown(" ● Average turnover from 'opportunity won' to 'active' status is **7 days** add and varies wildly")
 
+st.divider()
 st.sidebar.header("Filter Options")
 
 dynamic_filters = DynamicFilters(df, filters=["Country", "CSM Status Stage", "Highest Product", "# delivery partners"])
@@ -54,21 +53,24 @@ with st.sidebar:
 
 st.header("LogIn Metrics")
 
-col1, col2, col3, col4, col5, col6 = st.columns(6)
+# alignment = 
+
+col00, col0, col1, col2, col3, col4, col5, col6 = st.columns(8)
 
 with col1:
     st.metric("Daily LogIns", 878, f"-75.3% since yesterday")
 
 with col2:
-    st.metric("Weekly LogIns", 12476, f"+177.7 vs Previous Week")
+    st.metric("Weekly LogIns", 6504, f"+177.7 vs Previous Week")
 
 with col3:
-    st.metric("Monthly LogIns", 6504, f"+455.4 vs Previous Month")
+    st.metric("Monthly LogIns", 12476, f"+455.4 vs Previous Month")
 
 with col4:
     st.metric("Daily Average LogIns", 402.8)
 
 
+st.divider()
 st.header("LogIn Graph")
 
 daily_users = df[df['Activation Date'].notna()].groupby('Activation Date')['Account ID'].nunique().reset_index()
@@ -112,6 +114,7 @@ st.plotly_chart(fig_growth, use_container_width=True)
 
 # CHURN ANALYTICS
 
+st.divider()
 st.header("Churn Graphs")
 
 c1, c2, c3 = st.columns(3)
@@ -147,3 +150,4 @@ with c3:
     fig_churn_by_partners = px.bar(churn_by_partners, x='# delivery partners', y='Account ID')
     st.plotly_chart(fig_churn_by_partners, use_container_width=True)
 
+st.divider()
