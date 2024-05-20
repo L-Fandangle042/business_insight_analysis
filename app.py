@@ -18,6 +18,18 @@ st.set_page_config(page_title="Streamlit Metrics Demo",
 df = pd.read_csv("Data/clean_finished.csv")
 time_df= pd.read_csv("Data/time_df.csv")
 
+# Introduction and Header
+
+st.header("Customer Onboarding Metrics")
+
+st.text("")
+
+st.write("This project is solely for demonstration purposes, all code and frameworks are available via the repository(**business_insights_analysis**).")
+
+st.write("The analysis and dataframes that are used here are available via the repository, titled **'Exploration.ipynb'** ")
+
+st.write("")
+
 # Filter Sidebar
 
 # Sidebar Inights
@@ -33,22 +45,10 @@ st.sidebar.header("Filter Options")
 
 dynamic_filters = DynamicFilters(df, filters=["Country", "CSM Status Stage", "Highest Product", "# delivery partners"])
 
+df = dynamic_filters.filter_df()
+
 with st.sidebar:
     dynamic_filters.display_filters()
-
-# Introduction and Header
-
-st.header("Customer Onboarding Metrics")
-
-st.text("")
-
-st.write("This project is solely for demonstration purposes, all code and frameworks are available via the repository.")
-
-st.write("We have already discovered some valuable insights following the initial exploration.")
-
-st.write("The analysis is available via the repository and titled **'Exploration.ipynb'** ")
-
-st.write("")
 
 # LogIn Metrics
 
@@ -68,9 +68,6 @@ with col3:
 with col4:
     st.metric("Daily Average LogIns", 402.8)
 
-# dynamic_filters.display_df()  # st.dataframe(df, use_container_width=True)
-
-# 
 
 st.header("LogIn Graph")
 
@@ -119,7 +116,7 @@ st.header("Churn Graphs")
 
 c1, c2, c3 = st.columns(3)
 with c1:
-    st.markdown('### Churn by region')
+    st.markdown('### Churn by Region')
     churn_by_region = df[df['CSM Status Stage'] == 'Churned'].groupby(['Region']).count()[
         'Account ID'].reset_index().rename(columns={'Account ID': 'total_users_churned'})
     not_churn_by_region = df.groupby(['Region']).nunique()['Account ID'].reset_index().rename(
@@ -138,14 +135,15 @@ with c1:
     fig_churn_by_region.update_yaxes(title_text="Total users", secondary_y=True)
     st.plotly_chart(fig_churn_by_region, use_container_width=True)
 with c2:
-    st.markdown('### Churn rate by product')
+    st.markdown('### Churn Rate by Product')
     churn_by_product = df[df['CSM Status Stage'] == 'Churned'].groupby(['Highest Product', 'CSM Status Stage']).count()[
         'Account ID'].reset_index()
     fig_churn_by_product = px.bar(churn_by_product, x='Highest Product', y='Account ID')
     st.plotly_chart(fig_churn_by_product, use_container_width=True)
 with c3:
-    st.markdown('### Churn by number of partners')
+    st.markdown('### Churn by Number of Partners')
     churn_by_partners = df[df['CSM Status Stage'] == 'Churned'].groupby(['# delivery partners']).count()[
         'Account ID'].reset_index()
     fig_churn_by_partners = px.bar(churn_by_partners, x='# delivery partners', y='Account ID')
     st.plotly_chart(fig_churn_by_partners, use_container_width=True)
+
