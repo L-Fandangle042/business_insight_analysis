@@ -34,7 +34,7 @@ st.write("The analysis and dataframes that are used here are available via the r
 
 with st.sidebar:
     st.header("**Quick Insights**")
-    st.markdown(" ●  **70%** of Active Users come from a single country (USA)")
+    st.markdown(" ●  **70%** of 'Active' Users come from a single country (USA)")
     st.markdown(" ● **30%** of Opportunities won never become active platform users")
     st.markdown(" ● **25%** of Active Accounts have zero platform interaction")
     st.markdown(" ● Average turnover from 'opportunity won' to 'active' status is **7 days** and varies wildly")
@@ -71,7 +71,7 @@ with col4:
 
 
 st.divider()
-st.header("LogIn Graph")
+st.header("LogIn Graph (Interactive)")
 
 daily_users = df[df['Activation Date'].notna()].groupby('Activation Date')['Account ID'].nunique().reset_index()
 
@@ -115,7 +115,7 @@ st.plotly_chart(fig_growth, use_container_width=True)
 # CHURN ANALYTICS
 
 st.divider()
-st.header("Churn Graphs")
+st.header("Churn Graphs (Filters in Sidebar)")
 
 c1, c2, c3 = st.columns(3)
 with c1:
@@ -150,4 +150,14 @@ with c3:
     fig_churn_by_partners = px.bar(churn_by_partners, x='# delivery partners', y='Account ID')
     st.plotly_chart(fig_churn_by_partners, use_container_width=True)
 
+st.header("Final Note")
+
+st.write("This dashboard currently uses static data but has been designed to function using live data.")
+
+st.write("This means that in a real business case the information and visualizations would update daily.")
+
+st.markdown("I had a lot of fun learning how to use these programs and make the dashboard, please don't hesitate to reach out if you have any questions.")
+
 st.divider()
+
+st.markdown("")
