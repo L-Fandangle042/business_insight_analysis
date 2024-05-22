@@ -160,4 +160,5 @@ st.markdown("I had a lot of fun learning how to use these programs and make the 
 
 st.divider()
 
-st.markdown("")
+st.markdown(":email: 42.lloyd.mckinney@gmail.com")
+st.markdown(":link: LinkedIn: https://www.linkedin.com/in/lloydmckinney/")
