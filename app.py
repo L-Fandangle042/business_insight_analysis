@@ -24,7 +24,7 @@ st.header("Customer Onboarding Metrics")
 
 st.text("")
 
-st.write("This project is solely for demonstration purposes, all code and frameworks are available via the repository [business_insights_analysis](https://github.com/L-Fandangle042/business_insight_analysis)")
+st.write("This project is solely for demonstration purposes, all code and frameworks are available via the repo: [business_insights_analysis](https://github.com/L-Fandangle042/business_insight_analysis)")
 
 st.write("The analysis and dataframes that are used here are available via the repository, titled [Exploration.ipynb](https://github.com/L-Fandangle042/business_insight_analysis/blob/main/Exploration.ipynb)")
 
